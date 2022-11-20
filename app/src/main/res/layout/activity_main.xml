@@ -1,29 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fl_container"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorBlue"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/et_city_enter_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_the_city"/>
-
-    <Button
-        android:id="@+id/bt_city_enter_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tv_temperature"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/there_will_be_a_weather"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="75dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:text="@string/tuesday_15"
+                        android:textColor="@color/colorOffWhite"
+                        android:textSize="20sp"
+                        android:visibility="invisible"/>
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:layout_gravity="center"
+                        android:textSize="11sp"
+                        android:text="@string/_00_00"
+                        android:textColor="@color/colorOffWhite"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/ib_change_city"
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="#6699CC"
+                    app:srcCompat="@drawable/ic_action_change_city"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+            </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:id="@+id/ll_weather_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="3"
+                android:layout_marginStart="15dp"
+                android:visibility="invisible"
+                android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorOffWhite"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:text="@string/moscow"
+                        android:textSize="25sp"
+                        android:layout_gravity="start"
+                         />
+
+                    <TextView
+                        android:id="@+id/tv_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/_0"
+                        android:textColor="@color/colorOffWhite"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:textSize="50sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="start"/>
 
 
 
+
+                        <TextView
+                            android:id="@+id/tv_temperature_feels_like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/helvaticaneue"
+                            android:textColor="@color/colorOffWhite"
+                            android:text="@string/feels_like_00"
+                            android:textSize="20sp"
+                            android:layout_gravity="start"/>
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="end"
+                android:paddingEnd="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_weather_icon"
+                    android:layout_width="96dp"
+                    android:layout_height="63dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/clear_day"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/tv_conditionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/helvaticaneue"
+                    android:text="@string/clear"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorOffWhite"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/tv_wind_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/_0_m_s_w"
+                    android:textColor="@color/colorOffWhite"
+                    android:visibility="invisible"
+                    android:fontFamily="@font/helvaticaneue"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+        </FrameLayout>
+            <ProgressBar
+                android:id="@+id/pb_get_loading"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_time_forecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

@@ -2,4 +2,19 @@
     <string name="app_name">WeatherApp</string>
     <string name="there_will_be_a_weather">There will be a weather</string>
     <string name="enter_the_city">Enter the city</string>
+    <string name="there_will_be_a_feels_like_temperature">There will be a feels like temperature</string>
+    <string name="saturday_12">Saturday, 12</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter">Enter</string>
+    <string name="change_city">Change city</string>
+    <string name="moscow">Moscow</string>
+    <string name="_0">0</string>
+    <string name="feels_like_00">Feels like 00</string>
+    <string name="clear">Clear</string>
+    <string name="wind_speed">wind speed</string>
+    <string name="tuesday_15">Tuesday 15</string>
+    <string name="_0_m_s_w">0 m/s, W</string>
+    <string name="_00_00">00:00</string>
+    <string name="now">Now</string>
+    <string name="tv_forecast_temperature">tv_forecast_temperature</string>
 </resources>
