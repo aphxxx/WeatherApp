@@ -31,7 +31,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -57,9 +56,12 @@ public class MainActivity extends AppCompatActivity {
     private static TextView dateText;
     private static LocalDate today;
     private static TextView time;
-    private static ArrayList<WeatherRVModal> weatherRVModalArrayList;
-    private static WeatherRVAdapter weatherRVAdapter;
-    private static RecyclerView weatherRV;
+    private static ArrayList<ForecastHourRVModal> forecastHourRVModalArrayList;
+    private static ForecastHourRVAdapter forecastHourRVAdapter;
+    private static RecyclerView forecastHourRV;
+    private static RecyclerView forecastDayRV;
+    private static ArrayList<ForecastDayRVModal> forecastDayRVModalArrayList;
+    private static ForecastDayRVAdapter forecastDayRVAdapter;
 
     static class WeatherQueryTask extends AsyncTask<URL, Void, String> {
 
@@ -90,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject current = responseObject.getJSONObject("current");
                 JSONObject condition = current.getJSONObject("condition");
                 JSONArray forecastArray = responseObject.getJSONObject("forecast").getJSONArray("forecastday");
-
-                setAllFields(responseObject, current, condition, forecastArray);
+                JSONObject forecastHourObject = responseObject.getJSONObject("forecast").getJSONArray("forecastday").getJSONObject(0);
+                System.out.println(response);
+                setAllFields(responseObject, current, condition, forecastHourObject, forecastArray);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -101,7 +104,53 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        public void setAllFields(JSONObject responseObject, JSONObject current, JSONObject condition, JSONArray forecastArray) throws JSONException {
+        public int switchBitch(String otkudaBeru){
+            int icon;
+            switch (otkudaBeru) {
+                case "Sunny":
+                    icon = R.drawable.clear_day;
+                    break;
+                case "Overcast":
+                    icon = R.drawable.cloudy;
+                    break;
+                case "Clear":
+                    icon = R.drawable.clear_night;
+                    break;
+                case "Cloudy":
+                    icon = R.drawable.cloudy;
+                    break;
+                case "Partly Cloudy":
+                    icon = R.drawable.cloudy;
+                    break;
+                case "Fog":
+                    icon = R.drawable.fog;
+                    break;
+                case "Mist":
+                    icon = R.drawable.fog;
+                    break;
+                case "Freezing fog":
+                    icon = R.drawable.fog;
+                    break;
+                case "Rain":
+                    icon = R.drawable.rain;
+                    break;
+                case "Heavy snow":
+                    icon = R.drawable.snow;
+                    break;
+                case "Moderate snow":
+                    icon = R.drawable.snow;
+                    break;
+                case "Light snow":
+                    icon = R.drawable.snow;
+                    break;
+                default:
+                    icon = R.drawable.clear_day;
+                    break;
+            }
+            return icon;
+        }
+
+        public void setAllFields(JSONObject responseObject, JSONObject current, JSONObject condition, JSONObject forecastHourObject, JSONArray forecastArray) throws JSONException {
             String conditionString = condition.getString("text");
 
             String temp = Integer.toString((int) current.getDouble("temp_c"));
@@ -116,72 +165,68 @@ public class MainActivity extends AppCompatActivity {
             feelsLikeText.setText("Feels like "
                     + feelsLikeTextString + "°");
 
-            switch (conditionString) {
-                case "Sunny":
-                    Glide.with(context).load(R.drawable.clear_day).into(weatherIcon);
-                    break;
-                case "Overcast":
-                    Glide.with(context).load(R.drawable.cloudy).into(weatherIcon);
-                    break;
-                case "Clear":
-                    Glide.with(context).load(R.drawable.clear_night).into(weatherIcon);
-                    break;
-                case "Cloudy":
-                    Glide.with(context).load(R.drawable.cloudy).into(weatherIcon);
-                    break;
-                case "Partly Cloudy":
-                    Glide.with(context).load(R.drawable.cloudy).into(weatherIcon);
-                    break;
-                case "Fog":
-                    Glide.with(context).load(R.drawable.fog).into(weatherIcon);
-                    break;
-                case "Mist":
-                    Glide.with(context).load(R.drawable.fog).into(weatherIcon);
-                    break;
-                case "Freezing fog":
-                    Glide.with(context).load(R.drawable.fog).into(weatherIcon);
-                    break;
-                case "Rain":
-                    Glide.with(context).load(R.drawable.rain).into(weatherIcon);
-                    break;
-                case "Heavy snow":
-                    Glide.with(context).load(R.drawable.snow).into(weatherIcon);
-                    break;
-                case "Moderate snow":
-                    Glide.with(context).load(R.drawable.snow).into(weatherIcon);
-                    break;
-                case "Light snow":
-                    Glide.with(context).load(R.drawable.snow).into(weatherIcon);
-                    break;
-                default:
-                    Glide.with(context).load(R.drawable.clear_day).into(weatherIcon);
-                    break;
-            }
+
+            int currentIcon = switchBitch(conditionString);
+            Glide.with(context).load(currentIcon).into(weatherIcon);
 
             cityText.setText(responseObject.getJSONObject("location").getString("name"));
-
             conditionText.setText(conditionString);
-
             windSpeedText.setText(Integer.toString((int) current.getDouble("wind_mph"))
                     + " m/s, "
                     + current.getString("wind_dir"));
 
+
             String[] last_updated = current.getString("last_updated").split(" ");
-
             today = LocalDate.parse(last_updated[0]);
-
             dateText.setText(today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()) +
                     " " + today.getDayOfMonth());
-
             time.setText("Last updated: " + last_updated[1]);
 
-            JSONArray hourArray = forecastArray.getJSONArray(4);
+
+            forecastHourRVModalArrayList.clear();
+            JSONArray hourArray = forecastHourObject.getJSONArray("hour");
             for(int i = 0; i < hourArray.length(); i++){
                 JSONObject localHourObject = hourArray.getJSONObject(i);
-                String tempForecast = Integer.toString((int) current.getDouble("temp_c"));
-                char[] tempForecastArray = temp.toCharArray();
-                CharSequence weatherForecastText = tempArray[0] != '-' ? "+" + temp : temp;
+                int forecastIcon;
+
+                String tempForecast = Integer.toString((int) localHourObject.getDouble("temp_c"));
+                char[] tempForecastArray = tempForecast.toCharArray();
+                CharSequence weatherForecastTemp = tempArray[0] != '-' ? "+" + tempForecast : tempForecast;
+
+                String localHourTime = localHourObject.getString("time").split(" ")[1];
+
+                String forecastCondition = localHourObject.getJSONObject("condition").getString("text");
+
+                forecastIcon = switchBitch(forecastCondition);
+
+
+                forecastHourRVModalArrayList.add(new ForecastHourRVModal(localHourTime, weatherForecastTemp, forecastIcon));
+
             }
+            forecastHourRVAdapter.notifyDataSetChanged();
+
+            forecastDayRVModalArrayList.clear();
+            for(int i = 0; i < forecastArray.length(); i++){
+                JSONObject localDayObject = .getJSONObject(i);
+                int forecastIcon;
+
+                String tempForecast = Integer.toString((int) localHourObject.getDouble("temp_c"));
+                char[] tempForecastArray = tempForecast.toCharArray();
+                CharSequence weatherForecastTemp = tempArray[0] != '-' ? "+" + tempForecast : tempForecast;
+
+                String localHourTime = localHourObject.getString("time").split(" ")[1];
+
+                String forecastCondition = localHourObject.getJSONObject("condition").getString("text");
+
+                forecastIcon = switchBitch(forecastCondition);
+
+
+                forecastHourRVModalArrayList.add(new ForecastHourRVModal(localHourTime, weatherForecastTemp, forecastIcon));
+
+            }
+            forecastHourRVAdapter.notifyDataSetChanged();
+
+
 
         }
 
@@ -194,6 +239,8 @@ public class MainActivity extends AppCompatActivity {
             dateText.setVisibility(View.VISIBLE);
             time.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @Override
@@ -202,9 +249,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setFields();
-
+        forecastHourRV.setAdapter(forecastHourRVAdapter);
         ChangeCityDialogFragment.changeCity("Yakutsk");
-
 
         changeCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,9 +274,12 @@ public class MainActivity extends AppCompatActivity {
         windSpeedText = findViewById(R.id.tv_wind_speed);
         dateText = findViewById(R.id.tv_date);
         time = findViewById(R.id.tv_time);
-        weatherRV = findViewById(R.id.rv_time_forecast);
-        weatherRVModalArrayList = new ArrayList<>();
-        weatherRVAdapter = new WeatherRVAdapter(this, weatherRVModalArrayList);
+        forecastHourRV = findViewById(R.id.rv_hour_forecast);
+        forecastHourRVModalArrayList = new ArrayList<>();
+        forecastHourRVAdapter = new ForecastHourRVAdapter(this, forecastHourRVModalArrayList);
+        forecastDayRV = findViewById(R.id.rv_day_forecast);
+        forecastDayRVModalArrayList = new ArrayList<>();
+        forecastDayRVAdapter = new ForecastDayRVAdapter(this, forecastDayRVModalArrayList);
 
     }
 

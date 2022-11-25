@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fl_container"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBlue"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,8 +32,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_date"
@@ -40,20 +45,21 @@
                         android:text="@string/tuesday_15"
                         android:textColor="@color/colorOffWhite"
                         android:textSize="20sp"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/helvaticaneue"
                         android:layout_gravity="center"
-                        android:textSize="11sp"
+                        android:fontFamily="@font/helvaticaneue"
                         android:text="@string/_00_00"
                         android:textColor="@color/colorOffWhite"
-                        android:visibility="invisible"/>
+                        android:textSize="11sp"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
+
                 <ImageButton
                     android:id="@+id/ib_change_city"
                     android:layout_width="64dp"
@@ -65,112 +71,134 @@
 
             </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <LinearLayout
-                android:id="@+id/ll_weather_info"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:weightSum="3"
-                android:layout_marginStart="15dp"
-                android:visibility="invisible"
-                android:layout_gravity="center">
+                android:layout_marginBottom="20dp">
+
+
+                <LinearLayout
+                    android:id="@+id/ll_weather_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="15dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    android:weightSum="3">
 
                     <TextView
                         android:id="@+id/tv_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorOffWhite"
+                        android:layout_gravity="start"
                         android:fontFamily="@font/helvaticaneue"
                         android:text="@string/moscow"
-                        android:textSize="25sp"
-                        android:layout_gravity="start"
-                         />
+                        android:textColor="@color/colorOffWhite"
+                        android:textSize="25sp" />
 
                     <TextView
                         android:id="@+id/tv_temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="start"
                         android:layout_weight="1"
+                        android:fontFamily="@font/helvaticaneue"
                         android:text="@string/_0"
                         android:textColor="@color/colorOffWhite"
-                        android:fontFamily="@font/helvaticaneue"
                         android:textSize="50sp"
-                        android:textStyle="bold"
-                        android:layout_gravity="start"/>
+                        android:textStyle="bold" />
 
 
-
-
-                        <TextView
-                            android:id="@+id/tv_temperature_feels_like"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/helvaticaneue"
-                            android:textColor="@color/colorOffWhite"
-                            android:text="@string/feels_like_00"
-                            android:textSize="20sp"
-                            android:layout_gravity="start"/>
+                    <TextView
+                        android:id="@+id/tv_temperature_feels_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:text="@string/feels_like_00"
+                        android:textColor="@color/colorOffWhite"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="end"
-                android:paddingEnd="20dp">
-
-                <ImageView
-                    android:id="@+id/iv_weather_icon"
-                    android:layout_width="96dp"
-                    android:layout_height="63dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/clear_day"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/tv_conditionText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/helvaticaneue"
-                    android:text="@string/clear"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorOffWhite"
-                    android:layout_gravity="center"
-                    android:visibility="invisible"/>
-
-                <TextView
-                    android:id="@+id/tv_wind_speed"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/_0_m_s_w"
-                    android:textColor="@color/colorOffWhite"
-                    android:visibility="invisible"
-                    android:fontFamily="@font/helvaticaneue"
-                    android:textSize="20sp"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
+                    android:layout_gravity="end"
+                    android:orientation="vertical"
+                    android:paddingEnd="20dp">
 
-        </FrameLayout>
-            <ProgressBar
-                android:id="@+id/pb_get_loading"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_gravity="center"
-                android:visibility="invisible" />
+                    <ImageView
+                        android:id="@+id/iv_weather_icon"
+                        android:layout_width="96dp"
+                        android:layout_height="63dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/clear_day"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/tv_conditionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:text="@string/clear"
+                        android:textColor="@color/colorOffWhite"
+                        android:textSize="20sp"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/tv_wind_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/helvaticaneue"
+                        android:text="@string/_0_m_s_w"
+                        android:textColor="@color/colorOffWhite"
+                        android:textSize="20sp"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/pb_get_loading"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center"
+                    android:visibility="invisible" />
+
+            </FrameLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_time_forecast"
+                android:id="@+id/rv_hour_forecast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
     </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bottom_layout"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_day_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="50dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+    </LinearLayout>
 </LinearLayout>

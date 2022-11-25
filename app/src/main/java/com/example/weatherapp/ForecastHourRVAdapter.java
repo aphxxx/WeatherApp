@@ -12,30 +12,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.ViewHolder> {
+public class ForecastHourRVAdapter extends RecyclerView.Adapter<ForecastHourRVAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<WeatherRVModal> weatherRVModalArrayList;
+    private ArrayList<ForecastHourRVModal> forecastHourRVModalArrayList;
 
-    public WeatherRVAdapter(Context context, ArrayList<WeatherRVModal> weatherModalArrayList) {
+    public ForecastHourRVAdapter(Context context, ArrayList<ForecastHourRVModal> weatherModalArrayList) {
         this.context = context;
-        this.weatherRVModalArrayList = weatherModalArrayList;
+        this.forecastHourRVModalArrayList = weatherModalArrayList;
     }
 
     @NonNull
     @Override
-    public WeatherRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.weather_rv_item, parent, false);
+    public ForecastHourRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.forecast_hour_rv_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WeatherRVAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ForecastHourRVAdapter.ViewHolder holder, int position) {
 
-        WeatherRVModal modal = weatherRVModalArrayList.get(position);
+        ForecastHourRVModal modal = forecastHourRVModalArrayList.get(position);
         holder.forecastTemperature.setText(modal.getTemperature());
         holder.forecastTime.setText(modal.getTime());
         Glide.with(context).load(modal.getIcon()).into(holder.forecastConditionIcon);
@@ -44,7 +42,7 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.View
 
     @Override
     public int getItemCount() {
-        return weatherRVModalArrayList.size();
+        return forecastHourRVModalArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,9 +53,9 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<WeatherRVAdapter.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            forecastTime = itemView.findViewById(R.id.tv_forecast_time);
-            forecastTemperature = itemView.findViewById(R.id.tv_forecast_time);
-            forecastConditionIcon = itemView.findViewById(R.id.iv_forecast_condition_icon);
+            forecastTime = itemView.findViewById(R.id.tv_forecast_hour_time);
+            forecastTemperature = itemView.findViewById(R.id.tv_forecast_hour_temperature);
+            forecastConditionIcon = itemView.findViewById(R.id.iv_forecast_hour_condition_icon);
         }
     }
 }

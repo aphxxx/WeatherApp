@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="80dp"
+    android:layout_width="70dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="4dp"
@@ -10,13 +10,14 @@
     app:cardElevation="6dp">
 
 
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/card_back">
 
         <TextView
-            android:id="@+id/tv_forecast_time"
+            android:id="@+id/tv_forecast_hour_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/helvaticaneue"
@@ -28,22 +29,22 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tv_forecast_temperature"
+            android:id="@+id/tv_forecast_hour_temperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_forecast_time"
+            android:layout_below="@id/tv_forecast_hour_time"
             android:fontFamily="@font/helvaticaneue"
             android:gravity="center"
-            android:text="0°C"
+            android:text="@string/_0_c"
             android:textAlignment="center"
             android:textColor="@color/colorOffWhite"
             android:textSize="15sp" />
 
         <ImageView
-            android:id="@+id/iv_forecast_condition_icon"
+            android:id="@+id/iv_forecast_hour_condition_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/tv_forecast_temperature"
+            android:layout_below="@+id/tv_forecast_hour_temperature"
             android:layout_centerHorizontal="true"
             android:src="@drawable/clear_day" />
 

@@ -19,7 +19,7 @@ public class NetworkUtils {
     public static final String PARAM_API_KEY = "key";
     public static final String PARAM_CITY = "q";
     public static final String API_KEY = "d3adc39ae3104934b88143506221011";
-    public static final String DAYS = "7";
+    public static final String DAYS = "4";
 
     public static URL generateURL(String city) {
         Uri builtUri = Uri.parse(WEATHER_API_BASE_URL + WEATHER_API_GETFORECAST_METHOD)
