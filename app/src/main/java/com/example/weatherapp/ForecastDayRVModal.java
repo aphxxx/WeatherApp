@@ -17,6 +17,15 @@ public class ForecastDayRVModal {
         return temperature;
     }
 
+    @Override
+    public String toString() {
+        return "ForecastDayRVModal{" +
+                "date='" + date + '\'' +
+                ", temperature=" + temperature +
+                ", icon=" + icon +
+                '}';
+    }
+
     public void setTemperature(CharSequence temperature) {
         this.temperature = temperature;
     }

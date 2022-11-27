@@ -31,20 +31,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.SimpleTimeZone;
 
 
-@SuppressWarnings("ALL")
+@SuppressLint("StaticFieldLeak")
 public class MainActivity extends AppCompatActivity {
 
-    @SuppressLint("StaticFieldLeak")
     private static TextView weatherText;
-    @SuppressLint("StaticFieldLeak")
     private static TextView feelsLikeText;
-    @SuppressLint("StaticFieldLeak")
     private static TextView cityText;
     private static ImageButton changeCityButton;
     private static ProgressBar loading;
@@ -93,56 +96,45 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject condition = current.getJSONObject("condition");
                 JSONArray forecastArray = responseObject.getJSONObject("forecast").getJSONArray("forecastday");
                 JSONObject forecastHourObject = responseObject.getJSONObject("forecast").getJSONArray("forecastday").getJSONObject(0);
-                System.out.println(response);
                 setAllFields(responseObject, current, condition, forecastHourObject, forecastArray);
+                setAllVisibility();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            setAllVisibility();
+
 
         }
 
         public int switchBitch(String otkudaBeru){
             int icon;
             switch (otkudaBeru) {
-                case "Sunny":
-                    icon = R.drawable.clear_day;
-                    break;
                 case "Overcast":
+                case "Partly Cloudy":
+                case "Cloudy":
                     icon = R.drawable.cloudy;
                     break;
                 case "Clear":
                     icon = R.drawable.clear_night;
                     break;
-                case "Cloudy":
-                    icon = R.drawable.cloudy;
-                    break;
-                case "Partly Cloudy":
-                    icon = R.drawable.cloudy;
-                    break;
                 case "Fog":
-                    icon = R.drawable.fog;
-                    break;
                 case "Mist":
-                    icon = R.drawable.fog;
-                    break;
                 case "Freezing fog":
                     icon = R.drawable.fog;
                     break;
                 case "Rain":
+                case "Light rain":
+                case "Moderate rain":
+                case "Heavy rain":
                     icon = R.drawable.rain;
                     break;
                 case "Heavy snow":
-                    icon = R.drawable.snow;
-                    break;
                 case "Moderate snow":
-                    icon = R.drawable.snow;
-                    break;
                 case "Light snow":
                     icon = R.drawable.snow;
                     break;
+                case "Sunny":
                 default:
                     icon = R.drawable.clear_day;
                     break;
@@ -189,11 +181,15 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject localHourObject = hourArray.getJSONObject(i);
                 int forecastIcon;
 
+                String localHourTime = localHourObject.getString("time").split(" ")[1];
+                if(Integer.parseInt(last_updated[1].split(":")[0]) > Integer.parseInt(localHourTime.split(":")[0])){
+                    continue;
+                }
+
                 String tempForecast = Integer.toString((int) localHourObject.getDouble("temp_c"));
                 char[] tempForecastArray = tempForecast.toCharArray();
                 CharSequence weatherForecastTemp = tempArray[0] != '-' ? "+" + tempForecast : tempForecast;
 
-                String localHourTime = localHourObject.getString("time").split(" ")[1];
 
                 String forecastCondition = localHourObject.getJSONObject("condition").getString("text");
 
@@ -204,27 +200,45 @@ public class MainActivity extends AppCompatActivity {
 
             }
             forecastHourRVAdapter.notifyDataSetChanged();
+
 
             forecastDayRVModalArrayList.clear();
             for(int i = 0; i < forecastArray.length(); i++){
-                JSONObject localDayObject = .getJSONObject(i);
+                JSONObject localDayObject = forecastArray.getJSONObject(i);
                 int forecastIcon;
+                String[] localDateArray = null;
 
-                String tempForecast = Integer.toString((int) localHourObject.getDouble("temp_c"));
+                if(i == 0){
+                    continue;
+                }
+
+                JSONObject dayObject = localDayObject.getJSONObject("day");
+                String tempForecast = Integer.toString((int) dayObject.getDouble("avgtemp_c")) + "°";
                 char[] tempForecastArray = tempForecast.toCharArray();
                 CharSequence weatherForecastTemp = tempArray[0] != '-' ? "+" + tempForecast : tempForecast;
 
-                String localHourTime = localHourObject.getString("time").split(" ")[1];
+                String localDay = localDayObject.getString("date");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                try {
+                    localDateArray = String.valueOf(formatter.parse(localDay)).split(" ");
 
-                String forecastCondition = localHourObject.getJSONObject("condition").getString("text");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+//                System.out.println(localDate);
+                String localDateString = localDateArray[1] + " " + localDateArray[2];
+
+                String forecastCondition = dayObject.getJSONObject("condition").getString("text");
 
                 forecastIcon = switchBitch(forecastCondition);
 
 
-                forecastHourRVModalArrayList.add(new ForecastHourRVModal(localHourTime, weatherForecastTemp, forecastIcon));
-
+                forecastDayRVModalArrayList.add(new ForecastDayRVModal(localDateString, weatherForecastTemp, forecastIcon));
             }
-            forecastHourRVAdapter.notifyDataSetChanged();
+
+            forecastDayRVAdapter.notifyDataSetChanged();
+
+
 
 
 
@@ -250,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
         setFields();
         forecastHourRV.setAdapter(forecastHourRVAdapter);
+        forecastDayRV.setAdapter(forecastDayRVAdapter);
         ChangeCityDialogFragment.changeCity("Yakutsk");
 
         changeCityButton.setOnClickListener(new View.OnClickListener() {
